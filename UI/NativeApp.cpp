@@ -292,9 +292,13 @@ void NativeInit(int argc, const char *argv[],
 	// Packed assets are included in app
 	VFSRegister("", new DirectoryAssetReader(external_directory));
 #elif defined(__APPLE__) || (defined(__linux__) && !defined(ANDROID))
+	std::string cus_config_ppsspp;
+
 	VFSRegister("", new DirectoryAssetReader((File::GetExeDirectory() + "assets/").c_str()));
 	VFSRegister("", new DirectoryAssetReader((File::GetExeDirectory()).c_str()));
 	VFSRegister("", new DirectoryAssetReader("/usr/share/ppsspp/assets/"));
+	cus_config_ppsspp = getenv("HOME") + std::string("/.config") + "/ppsspp/";
+	VFSRegister("", new DirectoryAssetReader((cus_config_ppsspp + "assets/").c_str()));
 #else
 	VFSRegister("", new DirectoryAssetReader("assets/"));
 #endif
